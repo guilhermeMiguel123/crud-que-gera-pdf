@@ -1,134 +1,170 @@
-Manual para Rodar o Projeto "CRUD com PDF em PHP"
-1. Pré-Requisitos
-Antes de começar, seu amigo precisa ter algumas ferramentas instaladas no computador:
+# CRUD com PDF em PHP
 
-PHP (se já não estiver instalado).
-MySQL (ou qualquer banco de dados que preferir usar).
-Servidor Web (pode ser o XAMPP, WAMP, ou apenas PHP embutido).
-Biblioteca FPDF (para gerar PDFs).
-Editor de Código (como Visual Studio Code, Sublime Text, ou qualquer editor de preferência).
-2. Instalando o PHP e o Servidor Web
-Usando XAMPP (recomendado para iniciantes):
-Baixar e instalar o XAMPP:
+Este projeto implementa um **CRUD simples** em PHP, onde é possível adicionar, editar, excluir e listar pessoas com seus dados (nome, CPF e telefone). O projeto também gera um **PDF** com os dados de cada pessoa de forma individual.
 
-Acesse o site do XAMPP e baixe a versão para o seu sistema operacional (Windows, Linux ou macOS).
-Durante a instalação, escolha os componentes Apache e MySQL.
-Após a instalação, abra o XAMPP Control Panel e inicie os serviços Apache e MySQL.
-Verificar a instalação:
+---
 
-Abra o navegador e digite http://localhost/. Se a página de boas-vindas do XAMPP aparecer, a instalação foi bem-sucedida.
-Usando o PHP Embutido (se preferir não usar XAMPP):
-Instalar o PHP:
+## Pré-Requisitos
 
-Acesse o site oficial do PHP e baixe a versão mais recente.
-Extraia os arquivos para uma pasta no seu computador (exemplo: C:\php).
-Verificar a instalação:
+Antes de rodar o projeto, verifique se você tem as seguintes ferramentas instaladas:
 
-Abra o prompt de comando (CMD) e digite php -v. Isso deverá exibir a versão do PHP instalada.
-Rodar o servidor PHP:
+1. **PHP** (versão 7.2 ou superior).
+2. **MySQL** (ou qualquer banco de dados de sua preferência).
+3. **Servidor Web**:
+   - **XAMPP** (recomendado para iniciantes) ou
+   - **PHP embutido** (caso prefira configurar manualmente).
+4. **Biblioteca FPDF** (para gerar PDFs).
+5. **Editor de Código**: Visual Studio Code, Sublime Text ou qualquer editor de sua preferência.
 
-Abra o prompt de comando e vá até a pasta onde está o seu projeto (exemplo: cd C:\caminho\para\seu\projeto).
-Execute o comando: php -S localhost:8000.
-Isso vai iniciar um servidor embutido em PHP na porta 8000. Agora, você pode acessar o projeto pelo navegador em http://localhost:8000.
-3. Instalar e Configurar o Banco de Dados
-Instalar o MySQL:
+---
 
-Se você não está usando o XAMPP (que já vem com MySQL), baixe o MySQL Community Server e instale-o.
-Acessar o MySQL:
+## Passos para Configuração
 
-Caso esteja usando o XAMPP, abra o phpMyAdmin em http://localhost/phpmyadmin/.
-Se você não estiver usando o XAMPP, acesse o MySQL via terminal com o comando:
-css
-Copiar código
-mysql -u root -p
-Criar o Banco de Dados:
+### 1. Instalando o PHP e Servidor Web
 
-No phpMyAdmin, crie um banco de dados chamado crud_com_pdf_em_php.
-Se estiver no terminal MySQL, use o seguinte comando:
-sql
-Copiar código
-CREATE DATABASE crud_com_pdf_em_php;
-Criar a Tabela:
+#### Usando o XAMPP (Recomendado para Iniciantes)
 
-Com o banco de dados criado, crie a tabela para armazenar os dados das pessoas (nome, CPF, telefone):
-sql
-Copiar código
-USE crud_com_pdf_em_php;
+1. **Baixar e Instalar o XAMPP**:
+   - Acesse [XAMPP - Apache Friends](https://www.apachefriends.org/index.html) e baixe a versão compatível com seu sistema operacional.
+   - Durante a instalação, escolha os componentes **Apache** e **MySQL**.
 
-CREATE TABLE pessoas (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL,
-    cpf VARCHAR(14) NOT NULL,
-    telefone VARCHAR(15) NOT NULL
-);
-4. Baixar e Instalar a Biblioteca FPDF
-Baixar a FPDF:
+2. **Verificar a Instalação**:
+   - Após instalar o XAMPP, abra o **XAMPP Control Panel** e inicie os serviços **Apache** e **MySQL**.
+   - Abra o navegador e acesse `http://localhost/`. Se a página de boas-vindas do XAMPP aparecer, a instalação foi bem-sucedida.
 
-Vá até o site oficial do FPDF e baixe a versão mais recente (o arquivo ZIP).
-Instalar a FPDF:
+#### Usando o PHP Embutido
 
-Extraia o conteúdo do arquivo ZIP em uma pasta chamada fpdf dentro do seu projeto.
-O caminho deve ser algo como: seu_projeto/fpdf/.
-5. Configurar o Projeto
-Baixar o Projeto:
+1. **Instalar PHP**:
+   - Acesse [PHP Downloads](https://www.php.net/downloads.php) e baixe a versão mais recente.
+   - Extraia os arquivos para uma pasta (por exemplo: `C:\php`).
 
-Caso seu amigo já tenha o código, basta baixar ou clonar o repositório onde está o projeto.
-Configuração do Banco de Dados no Projeto:
+2. **Verificar a Instalação**:
+   - Abra o **Prompt de Comando** e digite `php -v` para verificar se o PHP foi instalado corretamente.
 
-Abra o arquivo db.php e configure as credenciais do banco de dados:
-php
-Copiar código
-<?php
-$host = 'localhost';
-$db   = 'crud_com_pdf_em_php';
-$user = 'root';  // ou o usuário do seu MySQL
-$pass = '';      // se você não tiver senha, deixe vazio
-$charset = 'utf8mb4';
+3. **Iniciar o Servidor PHP**:
+   - Navegue até a pasta do seu projeto e execute:
+     ```bash
+     php -S localhost:8000
+     ```
 
-$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
-$options = [
-    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    PDO::ATTR_EMULATE_PREPARES   => false,
-];
+---
 
-try {
-    $pdo = new PDO($dsn, $user, $pass, $options);
-} catch (\PDOException $e) {
-    throw new \PDOException($e->getMessage(), (int)$e->getCode());
-}
-?>
-6. Executando o Projeto
-Abrir o Projeto no Navegador:
+### 2. Configuração do Banco de Dados
 
-Se você estiver usando o XAMPP, coloque o projeto na pasta htdocs (por padrão em C:\xampp\htdocs\).
-Caso esteja usando o PHP embutido, basta acessar http://localhost:8000 no navegador.
-Adicionar Dados:
+1. **Instalar o MySQL**:
+   - Caso esteja usando o XAMPP, o MySQL já estará instalado. Caso contrário, baixe o [MySQL Community Server](https://dev.mysql.com/downloads/installer/) e instale-o.
 
-Acesse form.php e adicione pessoas ao banco de dados.
-Gerar o PDF:
+2. **Acessar o MySQL**:
+   - Abra o **phpMyAdmin** (se estiver usando XAMPP) em `http://localhost/phpmyadmin/` ou use o terminal com:
+     ```bash
+     mysql -u root -p
+     ```
 
-Na página principal (index.php), você verá a lista de pessoas.
-Clique em "Gerar PDF" ao lado de qualquer pessoa para gerar o PDF com os dados dessa pessoa.
-7. Resumo de Comandos e Arquivos
-Comandos importantes no MySQL:
-Para acessar o MySQL no terminal:
+3. **Criar o Banco de Dados**:
+   - Crie o banco de dados `crud_com_pdf_em_php`:
+     ```sql
+     CREATE DATABASE crud_com_pdf_em_php;
+     ```
 
-bash
-Copiar código
-mysql -u root -p
-Para criar o banco de dados:
+4. **Criar a Tabela**:
+   - No MySQL ou no phpMyAdmin, crie a tabela `pessoas`:
+     ```sql
+     USE crud_com_pdf_em_php;
 
-sql
-Copiar código
-CREATE DATABASE crud_com_pdf_em_php;
-Para usar o banco de dados:
+     CREATE TABLE pessoas (
+         id INT AUTO_INCREMENT PRIMARY KEY,
+         nome VARCHAR(100) NOT NULL,
+         cpf VARCHAR(14) NOT NULL,
+         telefone VARCHAR(15) NOT NULL
+     );
+     ```
 
-sql
-Copiar código
-USE crud_com_pdf_em_php;
-Arquivos principais:
-db.php - Configuração de conexão com o banco de dados.
-index.php - Página principal que lista as pessoas.
-form.php - Página para adicionar novas pessoas.
-generate_pdf.php - Gera o PDF com os dados de uma pessoa.
+---
+
+### 3. Baixar e Configurar a FPDF
+
+1. **Baixar a FPDF**:
+   - Acesse o site [FPDF](http://www.fpdf.org/) e baixe a versão mais recente.
+   - Extraia o arquivo ZIP na pasta do seu projeto, em uma pasta chamada `fpdf/`.
+
+---
+
+### 4. Configuração do Projeto
+
+1. **Baixar o Código**:
+   - Clone ou baixe os arquivos do projeto para o seu computador.
+
+2. **Configuração do Banco de Dados no Projeto**:
+   - Abra o arquivo `db.php` e configure as credenciais do banco de dados:
+     ```php
+     <?php
+     $host = 'localhost';
+     $db   = 'crud_com_pdf_em_php';
+     $user = 'root';  // ou o usuário do MySQL
+     $pass = '';      // se não tiver senha, deixe vazio
+     $charset = 'utf8mb4';
+
+     $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+     $options = [
+         PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+         PDO::ATTR_EMULATE_PREPARES   => false,
+     ];
+
+     try {
+         $pdo = new PDO($dsn, $user, $pass, $options);
+     } catch (\PDOException $e) {
+         throw new \PDOException($e->getMessage(), (int)$e->getCode());
+     }
+     ?>
+     ```
+
+---
+
+### 5. Rodando o Projeto
+
+1. **Coloque os Arquivos no Servidor Web**:
+   - Se estiver usando o XAMPP, coloque os arquivos do projeto na pasta `htdocs` (geralmente localizada em `C:\xampp\htdocs\`).
+   - Se estiver usando o PHP embutido, basta navegar até a pasta do seu projeto no terminal e rodar o comando:
+     ```bash
+     php -S localhost:8000
+     ```
+
+2. **Adicionar Dados**:
+   - Acesse `form.php` para adicionar novas pessoas ao banco de dados.
+
+3. **Gerar o PDF**:
+   - Acesse a página `index.php` e clique no link **"Gerar PDF"** ao lado de uma pessoa para gerar o PDF com seus dados.
+
+---
+
+### 6. Resumo dos Arquivos
+
+- **`db.php`**: Conexão com o banco de dados.
+- **`index.php`**: Página principal que exibe a lista de pessoas.
+- **`form.php`**: Formulário para adicionar novas pessoas.
+- **`generate_pdf.php`**: Gera o PDF com os dados de uma pessoa específica.
+
+---
+
+### 7. Dicas Importantes
+
+- **Banco de Dados**: Certifique-se de que o banco de dados e a tabela `pessoas` estão criados corretamente.
+- **Biblioteca FPDF**: Garanta que a biblioteca FPDF esteja na pasta `fpdf/` do seu projeto.
+- **Testar o PDF**: Se não estiver gerando o PDF corretamente, verifique se a imagem da assinatura está no caminho certo.
+
+---
+
+## Contribuição
+
+Se você encontrou algum erro ou deseja sugerir melhorias, sinta-se à vontade para abrir um **issue** ou enviar um **pull request**.
+
+---
+
+## Licença
+
+Este projeto está licenciado sob a [MIT License](LICENSE).
+
+---
+
+Feito com 💙 por [Seu Nome ou Nome da Sua Organização](https://seu-link-para-github-ou-site.com)
