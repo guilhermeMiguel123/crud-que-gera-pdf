@@ -165,6 +165,4 @@ Se você encontrou algum erro ou deseja sugerir melhorias, sinta-se à vontade p
 
 Este projeto está licenciado sob a [MIT License](LICENSE).
 
----
 
-Feito com 💙 por [Seu Nome ou Nome da Sua Organização](https://seu-link-para-github-ou-site.com)
